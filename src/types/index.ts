@@ -10,6 +10,14 @@ export interface ProjectImage {
   caption?: string;
 }
 
+export interface DetailedDescription {
+  overview: string;
+  coreConcept: string;
+  technicalApproach: string;
+  prototype: string;
+  learningOutcomes: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -20,6 +28,7 @@ export interface Project {
   description: string;
   technologies?: string[];
   slug: string;
+  detailedDescription?: DetailedDescription;
   client?: string;
   camera?: string;
   location?: string;
