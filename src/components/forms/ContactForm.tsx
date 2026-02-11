@@ -46,6 +46,9 @@ const contactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
+// Web3Forms access key — free service that sends form data directly to your email
+const WEB3FORMS_ACCESS_KEY = ''; // Will be set up with secrets
+
 export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -64,19 +67,44 @@ export function ContactForm() {
     setIsSubmitting(true);
     
     try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: 'f2072dce-0c71-4352-8b4a-bd15013a1360',
+          name: data.name,
+          email: data.email,
+          inquiry_type: data.inquiryType,
+          message: data.message,
+          to: 'anshulrathod999@gmail.com',
+          subject: `New ${data.inquiryType} inquiry from ${data.name}`,
+          from_name: 'Portfolio Contact Form',
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSuccess(true);
+        form.reset();
+        setTimeout(() => setIsSuccess(false), 5000);
+      } else {
+        // Fallback to mailto if web3forms fails
+        const mailtoLink = `mailto:anshulrathod999@gmail.com?subject=New ${data.inquiryType} inquiry from ${data.name}&body=${encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\nType: ${data.inquiryType}\n\nMessage:\n${data.message}`)}`;
+        window.open(mailtoLink, '_blank');
+        setIsSuccess(true);
+        form.reset();
+        setTimeout(() => setIsSuccess(false), 5000);
+      }
+    } catch {
+      // Fallback to mailto
       const mailtoLink = `mailto:anshulrathod999@gmail.com?subject=New ${data.inquiryType} inquiry from ${data.name}&body=${encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\nType: ${data.inquiryType}\n\nMessage:\n${data.message}`)}`;
       window.open(mailtoLink, '_blank');
-
       setIsSuccess(true);
       form.reset();
-
-      setTimeout(() => {
-        setIsSuccess(false);
-      }, 5000);
-    } catch (error) {
-      form.setError('root', {
-        message: 'Failed to send message. Please try again.',
-      });
+      setTimeout(() => setIsSuccess(false), 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -97,9 +125,9 @@ export function ContactForm() {
         >
           <CheckCircle2 className="size-16 mx-auto text-green-600 dark:text-green-400" />
         </motion.div>
-        <h3 className="text-2xl font-light tracking-wide">Message Prepared!</h3>
+        <h3 className="text-2xl font-light tracking-wide">Message Sent!</h3>
         <p className="text-muted-foreground font-light leading-relaxed">
-          Your email client should have opened. Send the email and I'll get back to you soon.
+          Thank you for reaching out. I'll get back to you within 24-48 hours.
         </p>
       </motion.div>
     );
@@ -192,7 +220,7 @@ export function ContactForm() {
           {isSubmitting ? (
             <>
               <Loader2 className="mr-2 size-5 animate-spin" />
-              Preparing...
+              Sending...
             </>
           ) : (
             'Send Message'

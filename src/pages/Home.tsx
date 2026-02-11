@@ -5,9 +5,10 @@ import { techStack } from '@/data/techStack';
 import { ProjectCard } from '@/components/portfolio/ProjectCard';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { SEOHead } from '@/components/seo/SEOHead';
-import { ArrowRight, Briefcase } from 'lucide-react';
+import { ArrowRight, Briefcase, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { TechStack } from '@/components/portfolio/TechStack';
+import heroBg from '@/assets/hero-bg.jpg';
 
 export default function Home() {
   const featuredProjects = getFeaturedProjects();
@@ -19,10 +20,9 @@ export default function Home() {
       <div className="min-h-screen">
         {/* Hero Section */}
         <section className="relative h-screen w-full overflow-hidden bg-background">
-          {/* Abstract tech background from Unsplash */}
           <div className="absolute inset-0">
             <img
-              src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80&fit=crop"
+              src={heroBg}
               alt="Abstract data visualization"
               className="w-full h-full object-cover opacity-30"
             />
@@ -100,6 +100,15 @@ export default function Home() {
                 >
                   Contact Me
                 </Link>
+                <a
+                  href="https://github.com/Anshul-777"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-8 py-3 border border-border rounded-sm font-light tracking-wide text-foreground hover:bg-accent transition-colors"
+                >
+                  <Github className="size-4" />
+                  GitHub
+                </a>
               </motion.div>
             </motion.div>
           </div>
@@ -160,15 +169,16 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 px-6 lg:px-8 max-w-7xl mx-auto">
             {featuredProjects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                aspectRatio="landscape"
-                showCategory={true}
-                index={index}
-              />
+              <ScrollReveal key={project.id} delay={index * 0.1}>
+                <ProjectCard
+                  project={project}
+                  aspectRatio="landscape"
+                  showCategory={true}
+                  index={index}
+                />
+              </ScrollReveal>
             ))}
           </div>
 

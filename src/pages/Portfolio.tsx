@@ -1,6 +1,7 @@
 import { projects } from '@/data/projects';
-import { PortfolioGrid } from '@/components/portfolio/PortfolioGrid';
 import { SEOHead } from '@/components/seo/SEOHead';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { ProjectCard } from '@/components/portfolio/ProjectCard';
 import { motion } from 'framer-motion';
 
 export default function Portfolio() {
@@ -8,7 +9,7 @@ export default function Portfolio() {
     <>
       <SEOHead 
         title="Projects"
-        description="Browse my ML, Data Science, and AI projects — from predictive systems to computer vision and generative AI."
+        description="Browse my ML, Data Science, and AI projects — from predictive systems to computer vision."
       />
       
       <div className="min-h-screen">
@@ -29,8 +30,19 @@ export default function Portfolio() {
           </div>
         </section>
 
-        <section className="py-12 md:py-16 px-2 md:px-4">
-          <PortfolioGrid projects={projects} />
+        <section className="py-12 md:py-16 px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+            {projects.map((project, index) => (
+              <ScrollReveal key={project.id} delay={index * 0.1}>
+                <ProjectCard
+                  project={project}
+                  aspectRatio="landscape"
+                  showCategory={true}
+                  index={index}
+                />
+              </ScrollReveal>
+            ))}
+          </div>
         </section>
 
         <div className="h-24" />
