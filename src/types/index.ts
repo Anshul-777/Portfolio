@@ -1,59 +1,57 @@
 /**
- * Core TypeScript interfaces for Frame Portfolio
- * Based on SPECIFICATION.md data model requirements
+ * Core TypeScript interfaces for ML Engineer Portfolio
  */
-
-export type ProjectCategory = 'portraits' | 'landscapes' | 'editorial' | 'architecture' | 'documentary';
-
-export type AspectRatio = 'portrait' | 'landscape' | 'square';
 
 export interface ProjectImage {
   id: string;
   src: string;
   alt: string;
-  aspectRatio: AspectRatio;
+  aspectRatio: 'portrait' | 'landscape' | 'square';
   caption?: string;
 }
 
 export interface Project {
   id: string;
   title: string;
-  category: ProjectCategory;
+  category: string;
   year: string;
   coverImage: string;
   images: ProjectImage[];
   description: string;
+  technologies?: string[];
+  slug: string;
   client?: string;
   camera?: string;
   location?: string;
-  slug: string;
 }
 
-export interface PhotographerInfo {
+export interface EngineerInfo {
   name: string;
   tagline: string;
+  headline: string;
   heroIntroduction: string;
   biography: string;
-  approach: string;
-  awards: string[];
-  clients: string[];
-  education: string;
+  status: string;
   location: string;
   email: string;
-  phone: string;
   availability: string;
   socialLinks: {
-    instagram?: string;
     linkedin?: string;
-    behance?: string;
+    github?: string;
   };
-  portraitImage: string;
 }
+
+export type PhotographerInfo = EngineerInfo;
 
 export interface ContactSubmission {
   name: string;
   email: string;
-  projectType: 'editorial' | 'commercial' | 'personal';
+  inquiryType: 'freelance' | 'fulltime' | 'collaboration' | 'other';
   message: string;
   timestamp: Date;
+}
+
+export interface TechCategory {
+  name: string;
+  items: string[];
 }
