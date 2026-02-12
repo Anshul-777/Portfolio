@@ -1,4 +1,8 @@
 import type { Project } from '@/types';
+import projectFraud from '@/assets/project-fraud.jpg';
+import projectNeuro from '@/assets/project-neuro.jpg';
+import projectChurn from '@/assets/project-churn.jpg';
+import projectCctv from '@/assets/project-cctv.jpg';
 
 export const projects: Project[] = [
   {
@@ -7,7 +11,7 @@ export const projects: Project[] = [
     category: 'machine-learning',
     year: '2024',
     slug: 'aegispay-fraud-detection',
-    coverImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1080&q=80&fit=crop',
+    coverImage: projectFraud,
     description: 'A simulated digital payment environment demonstrating real-time fraud detection through behavioral analytics and dynamic risk scoring.',
     technologies: ['Python', 'Scikit-learn', 'PyTorch', 'FastAPI', 'PostgreSQL', 'Docker'],
     images: [],
@@ -25,7 +29,7 @@ export const projects: Project[] = [
     category: 'data-science',
     year: '2024',
     slug: 'neuro-vx-cognitive-health',
-    coverImage: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1080&q=80&fit=crop',
+    coverImage: projectNeuro,
     description: 'A prototype system demonstrating predictive cognitive health analysis using behavioral and response-based micro-assessments.',
     technologies: ['Python', 'OpenCV', 'PyTorch', 'MediaPipe', 'NumPy', 'Flask'],
     images: [],
@@ -43,7 +47,7 @@ export const projects: Project[] = [
     category: 'data-science',
     year: '2024',
     slug: 'churn-prediction',
-    coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1080&q=80&fit=crop',
+    coverImage: projectChurn,
     description: 'A behavioral analytics prototype demonstrating how businesses predict customer churn before it happens through engagement pattern analysis.',
     technologies: ['Python', 'Pandas', 'Scikit-learn', 'Matplotlib', 'MLflow', 'Plotly'],
     images: [],
@@ -61,7 +65,7 @@ export const projects: Project[] = [
     category: 'computer-vision',
     year: '2023',
     slug: 'visionguard-cctv',
-    coverImage: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1080&q=80&fit=crop',
+    coverImage: projectCctv,
     description: 'A computer vision prototype for automated visual intelligence using CCTV footage with real-time object detection and motion tracking.',
     technologies: ['Python', 'YOLOv8', 'OpenCV', 'PyTorch', 'TensorRT', 'Docker'],
     images: [],
