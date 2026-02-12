@@ -9,10 +9,11 @@ import { SkipToContent } from "@/components/ui/SkipToContent";
 import { LoadingFallback } from "@/components/ui/LoadingFallback";
 import { PageTransition } from "@/components/ui/PageTransition";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
+import { Chatbot } from "@/components/Chatbot";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { AnimatePresence } from "framer-motion";
 import { lazy, Suspense } from "react";
 
-// Code-split route components for better performance
 const Index = lazy(() => import("./pages/Index"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
@@ -28,54 +29,12 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route
-          path="/"
-          element={
-            <PageTransition>
-              <Index />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/portfolio"
-          element={
-            <PageTransition>
-              <Portfolio />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/project/:slug"
-          element={
-            <PageTransition>
-              <ProjectDetail />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/about"
-          element={
-            <PageTransition>
-              <About />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/contact"
-          element={
-            <PageTransition>
-              <Contact />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <PageTransition>
-              <NotFound />
-            </PageTransition>
-          }
-        />
+        <Route path="/" element={<PageTransition><Index /></PageTransition>} />
+        <Route path="/portfolio" element={<PageTransition><Portfolio /></PageTransition>} />
+        <Route path="/project/:slug" element={<PageTransition><ProjectDetail /></PageTransition>} />
+        <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+        <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );
@@ -95,6 +54,8 @@ const App = () => (
                 <AnimatedRoutes />
               </Suspense>
             </Layout>
+            <Chatbot />
+            <ScrollToTop />
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>
