@@ -18,6 +18,12 @@ export interface DetailedDescription {
   learningOutcomes: string;
 }
 
+export interface FlowImage {
+  src: string;
+  alt: string;
+  caption: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -29,6 +35,7 @@ export interface Project {
   technologies?: string[];
   slug: string;
   detailedDescription?: DetailedDescription;
+  flowImages?: FlowImage[];
   client?: string;
   camera?: string;
   location?: string;
