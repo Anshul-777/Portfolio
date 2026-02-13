@@ -185,6 +185,91 @@ All colors MUST be HSL.
   }
 }
 
+/* Vibrant Theme */
+.vibrant {
+  --background: hsl(260 20% 6%);
+  --foreground: hsl(0 0% 98%);
+  --card: hsl(260 20% 8%);
+  --card-foreground: hsl(0 0% 98%);
+  --popover: hsl(260 20% 8%);
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: hsl(280 80% 65%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(260 20% 14%);
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: hsl(260 15% 14%);
+  --muted-foreground: hsl(260 10% 60%);
+  --accent: hsl(260 20% 16%);
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(260 15% 20%);
+  --input: hsl(260 15% 18%);
+  --ring: hsl(280 80% 65%);
+  --sidebar-background: hsl(260 20% 8%);
+  --sidebar-foreground: hsl(0 0% 95%);
+  --sidebar-primary: hsl(280 80% 65%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(260 20% 16%);
+  --sidebar-accent-foreground: hsl(0 0% 95%);
+  --sidebar-border: hsl(260 15% 20%);
+  --sidebar-ring: hsl(280 80% 65%);
+}
+
+/* Vibrant theme multicolor blur blobs */
+.vibrant body::before,
+.vibrant body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.vibrant body::before {
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  left: -100px;
+  background: radial-gradient(circle, hsl(280 90% 60%), hsl(320 80% 50%), transparent 70%);
+}
+
+.vibrant body::after {
+  width: 500px;
+  height: 500px;
+  bottom: -150px;
+  right: -100px;
+  background: radial-gradient(circle, hsl(200 90% 55%), hsl(170 80% 50%), transparent 70%);
+}
+
+/* Third blob via a wrapper - uses box-shadow trick */
+.vibrant .vibrant-glow {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  top: 40%;
+  right: 20%;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(40 90% 60%), hsl(350 80% 55%), transparent 70%);
+  filter: blur(120px);
+  opacity: 0.12;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    position: relative;
+  }
+}
+
 @layer utilities {
   .hide-scrollbar {
     scrollbar-width: none;

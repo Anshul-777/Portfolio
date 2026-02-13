@@ -9,16 +9,12 @@ interface ThemeProviderProps {
   disableTransitionOnChange?: boolean;
 }
 
-/**
- * Theme Provider component wrapping next-themes
- * Provides dark mode support with system preference detection
- */
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
+      defaultTheme="dark"
+      themes={['light', 'dark', 'vibrant']}
       disableTransitionOnChange
       {...props}
     >

@@ -5,7 +5,7 @@ import { getFeaturedProjects } from '@/data/projects';
 import { techStack } from '@/data/techStack';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { SEOHead } from '@/components/seo/SEOHead';
-import { ArrowRight, Briefcase, Github, Download } from 'lucide-react';
+import { ArrowRight, Briefcase, Github, Download, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
@@ -31,6 +31,8 @@ function TypedHeadline({ text }: { text: string }) {
     </span>
   );
 }
+
+const heroButtonBase = "inline-flex items-center justify-center gap-2 px-7 py-3 min-w-[160px] rounded-sm font-light tracking-wide text-sm transition-all duration-300";
 
 export default function Home() {
   const featuredProjects = getFeaturedProjects();
@@ -104,21 +106,21 @@ export default function Home() {
               </motion.p>
 
               <motion.div
-                className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+                className="flex flex-wrap items-center justify-center gap-3 pt-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.8 }}
               >
-                <Link to="/portfolio" className="inline-flex items-center gap-2 px-8 py-3 bg-foreground text-background rounded-sm font-light tracking-wide hover:bg-foreground/90 transition-colors">
+                <Link to="/portfolio" className={cn(heroButtonBase, "bg-foreground text-background hover:bg-foreground/90 hover:scale-105 hover:shadow-lg")}>
                   <Briefcase className="size-4" /> View Projects
                 </Link>
-                <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3 border border-border rounded-sm font-light tracking-wide text-foreground hover:bg-accent transition-colors">
-                  Contact Me
+                <Link to="/contact" className={cn(heroButtonBase, "border border-border text-foreground hover:bg-accent hover:scale-105")}>
+                  <Mail className="size-4" /> Contact Me
                 </Link>
-                <a href="https://github.com/Anshul-777" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-3 border border-border rounded-sm font-light tracking-wide text-foreground hover:bg-accent transition-colors">
+                <a href="https://github.com/Anshul-777" target="_blank" rel="noopener noreferrer" className={cn(heroButtonBase, "border border-border text-foreground hover:bg-accent hover:scale-105")}>
                   <Github className="size-4" /> GitHub
                 </a>
-                <button onClick={handleResumeDownload} className="inline-flex items-center gap-2 px-8 py-3 border border-border rounded-sm font-light tracking-wide text-foreground hover:bg-accent transition-colors">
+                <button onClick={handleResumeDownload} className={cn(heroButtonBase, "border border-border text-foreground hover:bg-accent hover:scale-105")}>
                   <Download className="size-4" /> Resume
                 </button>
               </motion.div>
@@ -154,7 +156,6 @@ export default function Home() {
                 <h2 className="text-4xl md:text-5xl font-light tracking-wide">Tech Stack</h2>
                 <p className="text-lg text-muted-foreground font-light tracking-wide">Technologies I work with</p>
               </div>
-              {/* Inlined TechStack */}
               <div className="space-y-8">
                 {techStack.map((category: TechCategory, catIndex: number) => (
                   <motion.div
@@ -195,7 +196,6 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 px-6 lg:px-8 max-w-7xl mx-auto">
             {featuredProjects.map((project, index) => (
               <ScrollReveal key={project.id} delay={index * 0.1}>
-                {/* Inlined ProjectCard */}
                 <InlinedProjectCard project={project} index={index} />
               </ScrollReveal>
             ))}
@@ -215,7 +215,6 @@ export default function Home() {
   );
 }
 
-// Inlined ProjectCard
 function InlinedProjectCard({ project, index = 0 }: { project: any; index?: number }) {
   const [isLoaded, setIsLoaded] = useState(false);
   return (

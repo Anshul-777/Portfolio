@@ -49,6 +49,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <SkipToContent />
+            <div className="vibrant-glow" />
             <Layout>
               <Suspense fallback={<LoadingFallback />}>
                 <AnimatedRoutes />
