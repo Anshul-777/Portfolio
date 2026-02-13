@@ -19,6 +19,7 @@ export default function ProjectDetail() {
   }
 
   const detail = project.detailedDescription;
+  const flowImages = project.flowImages;
 
   return (
     <>
@@ -71,6 +72,48 @@ export default function ProjectDetail() {
                 </div>
               </ScrollReveal>
             ))}
+
+            {/* Application Flow Screenshots */}
+            {flowImages && flowImages.length > 0 && (
+              <ScrollReveal delay={0.3}>
+                <div className="space-y-8">
+                  <div className="space-y-2">
+                    <h2 className="text-2xl md:text-3xl font-light tracking-wide text-foreground">Application Flow</h2>
+                    <Separator />
+                    <p className="text-base font-light text-muted-foreground">Step-by-step walkthrough of the prototype interface and its key features.</p>
+                  </div>
+
+                  <div className="space-y-10">
+                    {flowImages.map((img, index) => (
+                      <motion.div
+                        key={index}
+                        className="space-y-3"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: false }}
+                        transition={{ duration: 0.5, delay: index * 0.05 }}
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="flex-shrink-0 w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-medium">
+                            {index + 1}
+                          </span>
+                          <span className="text-sm font-light tracking-widest uppercase text-muted-foreground">{img.alt}</span>
+                        </div>
+                        <div className="relative overflow-hidden rounded-sm border border-border bg-muted">
+                          <img
+                            src={img.src}
+                            alt={img.alt}
+                            className="w-full h-auto object-contain"
+                            loading="lazy"
+                          />
+                        </div>
+                        <p className="text-sm font-light text-muted-foreground leading-relaxed pl-11">{img.caption}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </ScrollReveal>
+            )}
 
             {/* GitHub + Ask Chatbot */}
             <ScrollReveal delay={0.3}>

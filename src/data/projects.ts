@@ -4,6 +4,17 @@ import projectNeuro from '@/assets/project-neuro.jpg';
 import projectChurn from '@/assets/project-churn.jpg';
 import projectCctv from '@/assets/project-cctv.jpg';
 
+import aegisLanding from '@/assets/aegispay/01-landing.jpg';
+import aegisLogin from '@/assets/aegispay/02-login.jpg';
+import aegisDashboard from '@/assets/aegispay/03-dashboard.jpg';
+import aegisServices from '@/assets/aegispay/04-services.jpg';
+import aegisQR from '@/assets/aegispay/05-qrcode.jpg';
+import aegisPayment from '@/assets/aegispay/06-payment.jpg';
+import aegisSuccess from '@/assets/aegispay/07-success.jpg';
+import aegisProfile from '@/assets/aegispay/08-profile.jpg';
+import aegisMLLayers from '@/assets/aegispay/09-ml-layers.jpg';
+import aegisAccuracy from '@/assets/aegispay/10-accuracy.jpg';
+
 export const projects: Project[] = [
   {
     id: '1',
@@ -15,6 +26,18 @@ export const projects: Project[] = [
     description: 'A simulated digital payment environment demonstrating real-time fraud detection through behavioral analytics and dynamic risk scoring.',
     technologies: ['Python', 'Scikit-learn', 'PyTorch', 'FastAPI', 'PostgreSQL', 'Docker'],
     images: [],
+    flowImages: [
+      { src: aegisLanding, alt: 'AegisPay Landing Page', caption: 'Landing page with AI-Powered Fraud Detection hero, Login & Register buttons, and real-time stats including <100ms latency, 89.2% accuracy.' },
+      { src: aegisLogin, alt: 'AegisPay Login Screen', caption: 'Secure login with email, password, and 4-digit PIN authentication for multi-factor security.' },
+      { src: aegisDashboard, alt: 'AegisPay Dashboard', caption: 'User dashboard showing ₹1,00,000 virtual balance, verified user status, and money transfer options including mobile, wallet, and QR payments.' },
+      { src: aegisServices, alt: 'AegisPay Services', caption: 'Extended services including bill payments, loans, insurance, gold & silver investment, travel bookings, and rewards & referral programs.' },
+      { src: aegisQR, alt: 'AegisPay QR Code', caption: 'UPI QR code for receiving payments with download and share functionality — each user gets a unique payment address.' },
+      { src: aegisPayment, alt: 'AegisPay Payment Form', caption: 'Payment form with UPI ID, amount entry, merchant category selection, and AI-powered tip explaining how category data improves fraud prediction.' },
+      { src: aegisSuccess, alt: 'Payment Successful', caption: 'Transaction confirmation showing ₹10,000 payment with full details — Transaction ID, payment method, bank, category, and description.' },
+      { src: aegisProfile, alt: 'AegisPay User Profile', caption: 'Account management with personal info, bank details, transaction stats, security settings, and document uploads — full KYC simulation.' },
+      { src: aegisMLLayers, alt: 'Five Layers of ML Protection', caption: 'Five specialized detection layers — Rule Engine, Anomaly Detection, Supervised Learning, Sequence Model, and Graph Neural Network — working in concert.' },
+      { src: aegisAccuracy, alt: 'Ensemble Model Accuracy', caption: 'Layer performance overview showing individual model accuracies (85-99%) combining into 99.9% ensemble accuracy through multi-model fusion.' },
+    ],
     detailedDescription: {
       overview: 'AegisPay is a simulated digital payment environment designed to demonstrate how fraud detection systems operate in real time. Rather than building a production payment gateway, the project creates a controlled sandbox where users can observe how financial risk intelligence works under the hood.',
       coreConcept: 'Each user is assigned ₹1,00,000 in virtual currency upon registration and can transfer funds to other AegisPay users. The platform intentionally allows users to perform suspicious activities — rapid transactions, unusually high-value transfers, activity from new devices, or multiple transfers in short time intervals. The objective is educational and analytical: instead of silently blocking fraud, the system calculates and displays a dynamic Risk Score for every transaction based on behavioral deviation.',
