@@ -1,5 +1,4 @@
 import type { Project } from '@/types';
-import projectFraud from '@/assets/project-fraud.jpg';
 import projectNeuro from '@/assets/project-neuro.jpg';
 import projectChurn from '@/assets/project-churn.jpg';
 import projectCctv from '@/assets/project-cctv.jpg';
@@ -22,12 +21,14 @@ export const projects: Project[] = [
     category: 'machine-learning',
     year: '2024',
     slug: 'aegispay-fraud-detection',
-    coverImage: projectFraud,
+    coverImage: aegisLanding,
     description: 'A simulated digital payment environment demonstrating real-time fraud detection through behavioral analytics and dynamic risk scoring.',
     technologies: ['Python', 'Scikit-learn', 'PyTorch', 'FastAPI', 'PostgreSQL', 'Docker'],
     images: [],
     flowImages: [
       { src: aegisLanding, alt: 'AegisPay Landing Page', caption: 'Landing page with AI-Powered Fraud Detection hero, Login & Register buttons, and real-time stats including <100ms latency, 89.2% accuracy.' },
+      { src: aegisMLLayers, alt: 'Five Layers of ML Protection', caption: 'Five specialized detection layers — Rule Engine, Anomaly Detection, Supervised Learning, Sequence Model, and Graph Neural Network — working in concert.' },
+      { src: aegisAccuracy, alt: 'Ensemble Model Accuracy', caption: 'Layer performance overview showing individual model accuracies (85-99%) combining into 99.9% ensemble accuracy through multi-model fusion.' },
       { src: aegisLogin, alt: 'AegisPay Login Screen', caption: 'Secure login with email, password, and 4-digit PIN authentication for multi-factor security.' },
       { src: aegisDashboard, alt: 'AegisPay Dashboard', caption: 'User dashboard showing ₹1,00,000 virtual balance, verified user status, and money transfer options including mobile, wallet, and QR payments.' },
       { src: aegisServices, alt: 'AegisPay Services', caption: 'Extended services including bill payments, loans, insurance, gold & silver investment, travel bookings, and rewards & referral programs.' },
@@ -35,8 +36,6 @@ export const projects: Project[] = [
       { src: aegisPayment, alt: 'AegisPay Payment Form', caption: 'Payment form with UPI ID, amount entry, merchant category selection, and AI-powered tip explaining how category data improves fraud prediction.' },
       { src: aegisSuccess, alt: 'Payment Successful', caption: 'Transaction confirmation showing ₹10,000 payment with full details — Transaction ID, payment method, bank, category, and description.' },
       { src: aegisProfile, alt: 'AegisPay User Profile', caption: 'Account management with personal info, bank details, transaction stats, security settings, and document uploads — full KYC simulation.' },
-      { src: aegisMLLayers, alt: 'Five Layers of ML Protection', caption: 'Five specialized detection layers — Rule Engine, Anomaly Detection, Supervised Learning, Sequence Model, and Graph Neural Network — working in concert.' },
-      { src: aegisAccuracy, alt: 'Ensemble Model Accuracy', caption: 'Layer performance overview showing individual model accuracies (85-99%) combining into 99.9% ensemble accuracy through multi-model fusion.' },
     ],
     detailedDescription: {
       overview: 'AegisPay is a simulated digital payment environment designed to demonstrate how fraud detection systems operate in real time. Rather than building a production payment gateway, the project creates a controlled sandbox where users can observe how financial risk intelligence works under the hood.',

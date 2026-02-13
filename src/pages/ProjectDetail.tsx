@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, Tag, Github, MessageCircle } from 'lucide-react';
+import { Calendar, Tag, Github, MessageCircle, ArrowLeft } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
@@ -13,6 +13,7 @@ export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
   const project = slug ? getProjectBySlug(slug) : undefined;
   const [chatbotOpen, setChatbotOpen] = useState(false);
+  const navigate = useNavigate();
 
   if (!project) {
     return <Navigate to="/404" replace />;
@@ -26,6 +27,18 @@ export default function ProjectDetail() {
       <SEOHead title={project.title} description={project.description} image={project.coverImage} type="article" />
       
       <div className="min-h-screen">
+        {/* Back button */}
+        <motion.button
+          onClick={() => navigate(-1)}
+          className="fixed top-24 left-6 z-40 w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border flex items-center justify-center hover:bg-accent transition-colors shadow-lg"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+          aria-label="Go back"
+        >
+          <ArrowLeft className="size-5" />
+        </motion.button>
+
         <motion.div className="relative w-full h-[50vh] overflow-hidden bg-muted" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
           <img src={project.coverImage} alt={project.title} className="w-full h-full object-cover" loading="eager" fetchPriority="high" />
           <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent" />
