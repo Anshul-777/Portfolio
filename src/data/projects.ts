@@ -1,7 +1,5 @@
 import type { Project } from '@/types';
-import projectNeuro from '@/assets/project-neuro.jpg';
 import projectChurn from '@/assets/project-churn.jpg';
-import projectCctv from '@/assets/project-cctv.jpg';
 
 import aegisLanding from '@/assets/aegispay/01-landing.jpg';
 import aegisLogin from '@/assets/aegispay/02-login.jpg';
@@ -51,7 +49,7 @@ export const projects: Project[] = [
     category: 'data-science',
     year: '2024',
     slug: 'neuro-vx-cognitive-health',
-    coverImage: projectNeuro,
+    coverImage: '',
     description: 'A prototype system demonstrating predictive cognitive health analysis using behavioral and response-based micro-assessments.',
     technologies: ['Python', 'OpenCV', 'PyTorch', 'MediaPipe', 'NumPy', 'Flask'],
     images: [],
@@ -87,7 +85,7 @@ export const projects: Project[] = [
     category: 'computer-vision',
     year: '2023',
     slug: 'visionguard-cctv',
-    coverImage: projectCctv,
+    coverImage: '',
     description: 'A computer vision prototype for automated visual intelligence using CCTV footage with real-time object detection and motion tracking.',
     technologies: ['Python', 'YOLOv8', 'OpenCV', 'PyTorch', 'TensorRT', 'Docker'],
     images: [],

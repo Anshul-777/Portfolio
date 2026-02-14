@@ -54,6 +54,12 @@ All colors MUST be HSL.
   --ds-shadow-border: 0 0 0 1px rgba(0, 0, 0, 0.08);
   --ds-shadow-small: 0px 2px 2px rgba(0, 0, 0, 0.04);
   --ds-shadow-border-small: var(--ds-shadow-border), var(--ds-shadow-small);
+
+  /* Vibrant-specific tokens (no-op in light) */
+  --vibrant-glow-1: transparent;
+  --vibrant-glow-2: transparent;
+  --vibrant-glow-3: transparent;
+  --vibrant-border: hsl(240 5.9% 90%);
 }
 
 .dark {
@@ -101,6 +107,178 @@ All colors MUST be HSL.
   --ds-shadow-border: 0 0 0 1px rgba(255, 255, 255, 0.145);
   --ds-shadow-small: 0px 1px 2px rgba(0, 0, 0, 0.16);
   --ds-shadow-border-small: var(--ds-shadow-border), var(--ds-shadow-small);
+}
+
+/* =====================================================
+   VIBRANT THEME — Rich multicolor aesthetic
+   ===================================================== */
+.vibrant {
+  --background: hsl(260 25% 5%);
+  --foreground: hsl(0 0% 97%);
+  --card: hsla(260 30% 10% / 0.8);
+  --card-foreground: hsl(0 0% 97%);
+  --popover: hsl(260 25% 9%);
+  --popover-foreground: hsl(0 0% 97%);
+  --primary: hsl(280 100% 70%);
+  --primary-foreground: hsl(260 25% 5%);
+  --secondary: hsl(260 25% 14%);
+  --secondary-foreground: hsl(0 0% 97%);
+  --muted: hsl(260 20% 13%);
+  --muted-foreground: hsl(260 15% 58%);
+  --accent: hsla(280 40% 20% / 0.5);
+  --accent-foreground: hsl(0 0% 97%);
+  --destructive: hsl(0 75% 50%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsla(280 30% 30% / 0.4);
+  --input: hsl(260 20% 16%);
+  --ring: hsl(280 100% 70%);
+  --sidebar-background: hsl(260 25% 7%);
+  --sidebar-foreground: hsl(0 0% 95%);
+  --sidebar-primary: hsl(280 100% 70%);
+  --sidebar-primary-foreground: hsl(260 25% 5%);
+  --sidebar-accent: hsl(260 25% 14%);
+  --sidebar-accent-foreground: hsl(0 0% 95%);
+  --sidebar-border: hsla(280 30% 30% / 0.4);
+  --sidebar-ring: hsl(280 100% 70%);
+
+  /* Vibrant glow tokens */
+  --vibrant-glow-1: hsl(280 100% 65%);
+  --vibrant-glow-2: hsl(190 100% 55%);
+  --vibrant-glow-3: hsl(340 95% 60%);
+  --vibrant-border: hsla(280 60% 50% / 0.35);
+}
+
+/* Vibrant theme ambient glow blobs */
+.vibrant body::before,
+.vibrant body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(140px);
+  opacity: 0.18;
+  z-index: 0;
+  pointer-events: none;
+  animation: vibrant-float 12s ease-in-out infinite alternate;
+}
+
+.vibrant body::before {
+  width: 650px;
+  height: 650px;
+  top: -250px;
+  left: -150px;
+  background: radial-gradient(circle, hsl(280 100% 65%), hsl(320 90% 55%), transparent 70%);
+}
+
+.vibrant body::after {
+  width: 550px;
+  height: 550px;
+  bottom: -200px;
+  right: -150px;
+  background: radial-gradient(circle, hsl(190 100% 55%), hsl(160 90% 45%), transparent 70%);
+  animation-delay: 4s;
+}
+
+.vibrant .vibrant-glow {
+  position: fixed;
+  width: 450px;
+  height: 450px;
+  top: 35%;
+  right: 15%;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(340 95% 60%), hsl(30 90% 55%), transparent 70%);
+  filter: blur(140px);
+  opacity: 0.12;
+  z-index: 0;
+  pointer-events: none;
+  animation: vibrant-float 15s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes vibrant-float {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -20px) scale(1.05); }
+  100% { transform: translate(-20px, 15px) scale(0.95); }
+}
+
+/* Animated gradient border for cards in vibrant theme */
+@keyframes vibrant-border-rotate {
+  0% { --vibrant-angle: 0deg; }
+  100% { --vibrant-angle: 360deg; }
+}
+
+@property --vibrant-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.vibrant .gradient-border {
+  position: relative;
+  border: none !important;
+  background: var(--card);
+  isolation: isolate;
+}
+
+.vibrant .gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--vibrant-angle),
+    hsl(280 100% 65%),
+    hsl(190 100% 55%),
+    hsl(340 95% 60%),
+    hsl(45 100% 60%),
+    hsl(280 100% 65%)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: vibrant-border-rotate 4s linear infinite;
+  z-index: -1;
+}
+
+/* Vibrant glow on hover for interactive elements */
+.vibrant .vibrant-hover:hover {
+  box-shadow:
+    0 0 20px hsla(280, 100%, 65%, 0.2),
+    0 0 40px hsla(190, 100%, 55%, 0.1);
+}
+
+/* Vibrant text gradient utility */
+.vibrant .vibrant-text-gradient {
+  background: linear-gradient(135deg, hsl(280 100% 70%), hsl(190 100% 60%), hsl(340 95% 65%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Vibrant button glow */
+.vibrant .vibrant-btn {
+  background: linear-gradient(135deg, hsl(280 100% 65%), hsl(320 90% 55%));
+  color: hsl(0 0% 100%);
+  border: none;
+  box-shadow: 0 0 20px hsla(280, 100%, 65%, 0.3);
+  transition: all 0.3s ease;
+}
+
+.vibrant .vibrant-btn:hover {
+  box-shadow: 0 0 30px hsla(280, 100%, 65%, 0.5), 0 0 60px hsla(190, 100%, 55%, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Vibrant tech tag styling */
+.vibrant .vibrant-tag {
+  border-color: hsla(280, 60%, 50%, 0.3) !important;
+  background: hsla(280, 40%, 20%, 0.3) !important;
+  transition: all 0.3s ease;
+}
+
+.vibrant .vibrant-tag:hover {
+  border-color: hsla(280, 100%, 65%, 0.5) !important;
+  box-shadow: 0 0 15px hsla(280, 100%, 65%, 0.15);
 }
 
 @theme {
@@ -173,90 +351,6 @@ All colors MUST be HSL.
   to {
     height: 0;
   }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* Vibrant Theme */
-.vibrant {
-  --background: hsl(260 20% 6%);
-  --foreground: hsl(0 0% 98%);
-  --card: hsl(260 20% 8%);
-  --card-foreground: hsl(0 0% 98%);
-  --popover: hsl(260 20% 8%);
-  --popover-foreground: hsl(0 0% 98%);
-  --primary: hsl(280 80% 65%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(260 20% 14%);
-  --secondary-foreground: hsl(0 0% 98%);
-  --muted: hsl(260 15% 14%);
-  --muted-foreground: hsl(260 10% 60%);
-  --accent: hsl(260 20% 16%);
-  --accent-foreground: hsl(0 0% 98%);
-  --destructive: hsl(0 62.8% 30.6%);
-  --destructive-foreground: hsl(0 0% 98%);
-  --border: hsl(260 15% 20%);
-  --input: hsl(260 15% 18%);
-  --ring: hsl(280 80% 65%);
-  --sidebar-background: hsl(260 20% 8%);
-  --sidebar-foreground: hsl(0 0% 95%);
-  --sidebar-primary: hsl(280 80% 65%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(260 20% 16%);
-  --sidebar-accent-foreground: hsl(0 0% 95%);
-  --sidebar-border: hsl(260 15% 20%);
-  --sidebar-ring: hsl(280 80% 65%);
-}
-
-/* Vibrant theme multicolor blur blobs */
-.vibrant body::before,
-.vibrant body::after {
-  content: '';
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.15;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.vibrant body::before {
-  width: 600px;
-  height: 600px;
-  top: -200px;
-  left: -100px;
-  background: radial-gradient(circle, hsl(280 90% 60%), hsl(320 80% 50%), transparent 70%);
-}
-
-.vibrant body::after {
-  width: 500px;
-  height: 500px;
-  bottom: -150px;
-  right: -100px;
-  background: radial-gradient(circle, hsl(200 90% 55%), hsl(170 80% 50%), transparent 70%);
-}
-
-/* Third blob via a wrapper - uses box-shadow trick */
-.vibrant .vibrant-glow {
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  top: 40%;
-  right: 20%;
-  border-radius: 50%;
-  background: radial-gradient(circle, hsl(40 90% 60%), hsl(350 80% 55%), transparent 70%);
-  filter: blur(120px);
-  opacity: 0.12;
-  z-index: 0;
-  pointer-events: none;
 }
 
 @layer base {
