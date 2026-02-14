@@ -13,6 +13,36 @@ interface Message {
 
 const GEMINI_API_KEY = 'AIzaSyDrEY0e3nWr3kqwj2MiNkY4Tz5LVtxyg4s';
 
+// Common Q&A for instant offline answers
+const COMMON_QA: Record<string, string> = {
+  'hello': "Hello! 👋 I'm Anshul's portfolio assistant. How can I help you today?",
+  'hi': "Hi there! 👋 Welcome to Anshul's portfolio. What would you like to know?",
+  'hey': "Hey! 👋 I'm here to help you learn about Anshul's work. Ask me anything!",
+  'who are you': "I'm Anshul Rathod's AI portfolio assistant. I can answer questions about his projects, skills, tech stack, and availability. Ask away!",
+  'what do you do': "I help visitors learn about Anshul Rathod — his ML/AI projects, technical skills, work experience, and how to get in touch with him.",
+  'contact': `You can reach Anshul at **${photographerInfo.email}**. You can also visit the [Contact page](/contact) to send a message directly, or connect on [LinkedIn](${photographerInfo.socialLinks.linkedin}) and [GitHub](${photographerInfo.socialLinks.github}).`,
+  'email': `Anshul's email is **${photographerInfo.email}**. Feel free to reach out!`,
+  'hire': `Great news — Anshul is currently **${photographerInfo.status}**! You can reach him at ${photographerInfo.email} or use the Contact page to send a message.`,
+  'available': `Yes! Anshul is currently **${photographerInfo.status}**. Feel free to reach out via the Contact page or email him at ${photographerInfo.email}.`,
+  'resume': "You can download Anshul's resume by clicking the **Resume** button on the homepage, or visiting the About page. The resume is also available as a PDF download.",
+  'skills': `Anshul's core skills include:\n- **Languages:** Python, C++, TypeScript\n- **ML/AI:** PyTorch, Scikit-learn, NumPy, Pandas, MLflow\n- **Web:** FastAPI, React, Node.js\n- **Cloud:** AWS, Docker, PostgreSQL\n- **Tools:** Git, GitHub`,
+  'projects': `Anshul has built 4 major projects:\n1. **AegisPay** — Fraud Detection with real-time risk scoring\n2. **Neuro-VX** — Cognitive health analysis\n3. **Customer Retention** — Churn prediction analytics\n4. **Intelligent CCTV** — Computer vision monitoring\n\nClick on any project card to learn more!`,
+  'thank you': "You're welcome! 😊 Feel free to ask if you have more questions. Happy to help!",
+  'thanks': "You're welcome! Let me know if there's anything else I can help with! 🙌",
+  'bye': "Goodbye! 👋 Thanks for visiting Anshul's portfolio. Have a great day!",
+};
+
+function findCommonAnswer(text: string): string | null {
+  const lower = text.toLowerCase().trim();
+  // Exact match first
+  if (COMMON_QA[lower]) return COMMON_QA[lower];
+  // Partial match
+  for (const [key, answer] of Object.entries(COMMON_QA)) {
+    if (lower.includes(key) || key.includes(lower)) return answer;
+  }
+  return null;
+}
+
 function buildSystemPrompt(projectSlug?: string) {
   const projectsInfo = projects.map(p => 
     `- ${p.title} (${p.category}, ${p.year}): ${p.description} Technologies: ${p.technologies?.join(', ')}. ${p.detailedDescription ? `Overview: ${p.detailedDescription.overview} Core Concept: ${p.detailedDescription.coreConcept} Technical Approach: ${p.detailedDescription.technicalApproach}` : ''}`
@@ -53,7 +83,7 @@ function getSuggestedQuestions(projectSlug?: string): string[] {
     const questionMap: Record<string, string[]> = {
       'aegispay-fraud-detection': [
         'How does the risk scoring work?',
-        'What ML models are used for fraud detection?',
+        'What ML models are used?',
         'How does it handle real-time transactions?',
       ],
       'neuro-vx-cognitive-health': [
@@ -64,12 +94,12 @@ function getSuggestedQuestions(projectSlug?: string): string[] {
       'churn-prediction': [
         'How is churn probability calculated?',
         'What behavioral signals does it track?',
-        'How does it help with retention strategy?',
+        'How does it help with retention?',
       ],
       'visionguard-cctv': [
         'What object detection model is used?',
-        'How does it handle real-time processing?',
-        'What types of anomalies can it detect?',
+        'How does real-time processing work?',
+        'What anomalies can it detect?',
       ],
     };
     return questionMap[projectSlug] || ['Tell me about this project'];
@@ -78,6 +108,7 @@ function getSuggestedQuestions(projectSlug?: string): string[] {
     "What projects has Anshul built?",
     "What's Anshul's tech stack?",
     "Is Anshul available for work?",
+    "How can I contact Anshul?",
   ];
 }
 
@@ -90,7 +121,7 @@ interface ChatbotProps {
 export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps) {
   const [isOpen, setIsOpen] = useState(autoOpen);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: "Hello! 👋 I'm Anshul's portfolio assistant. How can I help you today? Feel free to ask about any projects, skills, or experience!" }
+    { role: 'assistant', content: "Hello! 👋 I'm Anshul's portfolio assistant. How can I help you today?\n\nYou can ask me about:\n- 🚀 **Projects** — AegisPay, Neuro-VX, and more\n- 🛠️ **Skills & Tech Stack**\n- 📧 **Contact & Availability**\n- 📄 **Resume**" }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -109,7 +140,6 @@ export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps
     if (autoOpen) setIsOpen(true);
   }, [autoOpen]);
 
-  // Lock body scroll when chat is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -126,20 +156,33 @@ export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps
     const allMessages = [...messages, userMsg];
     setMessages(allMessages);
     setInput('');
+
+    // Check common Q&A first for instant response
+    const commonAnswer = findCommonAnswer(text.trim());
+    if (commonAnswer) {
+      setTimeout(() => {
+        setMessages(prev => [...prev, { role: 'assistant', content: commonAnswer }]);
+      }, 300);
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      // Build contents array - filter out the initial greeting for API call
-      const apiMessages = allMessages.filter((_, i) => i > 0 || allMessages[0].role === 'user');
-      
+      // Build contents - only user/model messages for Gemini
+      const apiMessages = allMessages.slice(1); // skip initial greeting
       const contents = apiMessages.map(m => ({
         role: m.role === 'assistant' ? 'model' : 'user',
         parts: [{ text: m.content }]
       }));
 
-      // Ensure first message is from user (Gemini requirement)
-      if (contents.length > 0 && contents[0].role === 'model') {
+      // Ensure first message is user role
+      while (contents.length > 0 && contents[0].role === 'model') {
         contents.shift();
+      }
+
+      if (contents.length === 0) {
+        contents.push({ role: 'user', parts: [{ text: text.trim() }] });
       }
 
       const response = await fetch(
@@ -166,7 +209,8 @@ export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps
       setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
     } catch (err) {
       console.error('Chatbot error:', err);
-      setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I'm having trouble connecting right now. Please try again in a moment." }]);
+      // Fallback to a helpful message
+      setMessages(prev => [...prev, { role: 'assistant', content: `I'm having trouble connecting right now. In the meantime, here are some quick answers:\n\n- **Email:** ${photographerInfo.email}\n- **Status:** ${photographerInfo.status}\n- **Projects:** AegisPay, Neuro-VX, Customer Retention, Intelligent CCTV\n\nPlease try again in a moment!` }]);
     } finally {
       setIsLoading(false);
     }
@@ -181,7 +225,7 @@ export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps
 
   return (
     <>
-      {/* Floating button - bigger */}
+      {/* Floating button */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -189,7 +233,7 @@ export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full bg-foreground text-background flex items-center justify-center shadow-2xl hover:scale-110 transition-transform"
+            className="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full bg-foreground text-background flex items-center justify-center shadow-2xl hover:scale-110 transition-transform vibrant-hover"
             aria-label="Open chatbot"
           >
             <Bot className="size-7" />
@@ -201,7 +245,6 @@ export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -210,13 +253,12 @@ export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps
               onClick={handleClose}
             />
 
-            {/* Chat window - centered on top */}
             <motion.div
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 40, scale: 0.95 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
-              className="fixed z-[70] inset-4 sm:inset-auto sm:bottom-8 sm:right-8 sm:w-[400px] sm:h-[600px] sm:max-h-[calc(100vh-4rem)] bg-card border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+              className="fixed z-[70] inset-4 sm:inset-auto sm:bottom-8 sm:right-8 sm:w-[400px] sm:h-[600px] sm:max-h-[calc(100vh-4rem)] bg-card border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden gradient-border"
             >
               {/* Header */}
               <div className="flex items-center justify-between p-4 border-b border-border bg-accent/50">
@@ -226,7 +268,7 @@ export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps
                   </div>
                   <div>
                     <p className="text-sm font-medium">Portfolio Assistant</p>
-                    <p className="text-xs text-muted-foreground">Ask me anything</p>
+                    <p className="text-xs text-muted-foreground">Powered by AI</p>
                   </div>
                 </div>
                 <button onClick={handleClose} className="p-2 rounded-full hover:bg-accent transition-colors">
@@ -244,7 +286,7 @@ export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps
                         : 'bg-accent text-foreground rounded-bl-md'
                     }`}>
                       {msg.role === 'assistant' ? (
-                        <div className="prose prose-sm dark:prose-invert max-w-none [&>p]:m-0 [&>ul]:m-0 [&>ol]:m-0">
+                        <div className="prose prose-sm dark:prose-invert max-w-none [&>p]:m-0 [&>ul]:m-0 [&>ol]:m-0 [&>p]:mb-2 [&>ul]:mb-2">
                           <ReactMarkdown>{msg.content}</ReactMarkdown>
                         </div>
                       ) : msg.content}
@@ -269,7 +311,7 @@ export function Chatbot({ projectSlug, autoOpen = false, onClose }: ChatbotProps
                     <button
                       key={i}
                       onClick={() => sendMessage(q)}
-                      className="text-xs px-3 py-1.5 rounded-full border border-border hover:bg-accent transition-colors text-muted-foreground"
+                      className="text-xs px-3 py-1.5 rounded-full border border-border hover:bg-accent transition-colors text-muted-foreground vibrant-hover"
                     >
                       {q}
                     </button>

@@ -5,14 +5,13 @@ import { getFeaturedProjects } from '@/data/projects';
 import { techStack } from '@/data/techStack';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { SEOHead } from '@/components/seo/SEOHead';
-import { ArrowRight, Briefcase, Github, Download, Mail } from 'lucide-react';
+import { ArrowRight, Briefcase, Github, Download, Mail, ImageOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import heroBg from '@/assets/hero-bg.jpg';
 import type { TechCategory } from '@/types';
 
-// Typing animation for headline
 function TypedHeadline({ text }: { text: string }) {
   const [displayed, setDisplayed] = useState('');
   useEffect(() => {
@@ -79,7 +78,7 @@ export default function Home() {
               </motion.div>
 
               <motion.h1
-                className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-wide text-foreground"
+                className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-wide text-foreground vibrant-text-gradient"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.2 }}
@@ -111,16 +110,16 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.8 }}
               >
-                <Link to="/portfolio" className={cn(heroButtonBase, "bg-foreground text-background hover:bg-foreground/90 hover:scale-105 hover:shadow-lg")}>
+                <Link to="/portfolio" className={cn(heroButtonBase, "bg-foreground text-background hover:bg-foreground/90 hover:scale-105 hover:shadow-lg vibrant-btn")}>
                   <Briefcase className="size-4" /> View Projects
                 </Link>
-                <Link to="/contact" className={cn(heroButtonBase, "border border-border text-foreground hover:bg-accent hover:scale-105")}>
+                <Link to="/contact" className={cn(heroButtonBase, "border border-border text-foreground hover:bg-accent hover:scale-105 vibrant-hover")}>
                   <Mail className="size-4" /> Contact Me
                 </Link>
-                <a href="https://github.com/Anshul-777" target="_blank" rel="noopener noreferrer" className={cn(heroButtonBase, "border border-border text-foreground hover:bg-accent hover:scale-105")}>
+                <a href="https://github.com/Anshul-777" target="_blank" rel="noopener noreferrer" className={cn(heroButtonBase, "border border-border text-foreground hover:bg-accent hover:scale-105 vibrant-hover")}>
                   <Github className="size-4" /> GitHub
                 </a>
-                <button onClick={handleResumeDownload} className={cn(heroButtonBase, "border border-border text-foreground hover:bg-accent hover:scale-105")}>
+                <button onClick={handleResumeDownload} className={cn(heroButtonBase, "border border-border text-foreground hover:bg-accent hover:scale-105 vibrant-hover")}>
                   <Download className="size-4" /> Resume
                 </button>
               </motion.div>
@@ -148,12 +147,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Tech Stack Section - Inlined */}
+        {/* Tech Stack Section */}
         <section className="py-24 md:py-32 border-t border-border px-6 lg:px-8">
           <ScrollReveal>
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-12 space-y-4">
-                <h2 className="text-4xl md:text-5xl font-light tracking-wide">Tech Stack</h2>
+                <h2 className="text-4xl md:text-5xl font-light tracking-wide vibrant-text-gradient">Tech Stack</h2>
                 <p className="text-lg text-muted-foreground font-light tracking-wide">Technologies I work with</p>
               </div>
               <div className="space-y-8">
@@ -169,7 +168,7 @@ export default function Home() {
                     <h3 className="text-sm font-light tracking-widest uppercase text-muted-foreground">{category.name}</h3>
                     <div className="flex flex-wrap gap-2">
                       {category.items.map((item) => (
-                        <span key={item} className="px-4 py-2 text-sm font-light tracking-wide border border-border rounded-sm bg-accent/50 text-foreground hover:bg-accent transition-colors">
+                        <span key={item} className="px-4 py-2 text-sm font-light tracking-wide border border-border rounded-sm bg-accent/50 text-foreground hover:bg-accent transition-colors vibrant-tag">
                           {item}
                         </span>
                       ))}
@@ -186,7 +185,7 @@ export default function Home() {
           <ScrollReveal>
             <div className="text-center mb-16 space-y-4 px-6">
               <div className="flex items-center justify-center gap-3">
-                <h2 className="text-4xl md:text-5xl font-light tracking-wide">Featured Projects</h2>
+                <h2 className="text-4xl md:text-5xl font-light tracking-wide vibrant-text-gradient">Featured Projects</h2>
                 <span className="px-3 py-1 text-sm font-light border border-border rounded-full bg-accent/50">{featuredProjects.length}</span>
               </div>
               <p className="text-lg text-muted-foreground font-light tracking-wide">Selected work in ML, Data Science & AI</p>
@@ -217,18 +216,31 @@ export default function Home() {
 
 function InlinedProjectCard({ project, index = 0 }: { project: any; index?: number }) {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const hasImage = project.coverImage && project.coverImage.length > 0;
+
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: index * 0.1 }}>
-      <Link to={`/project/${project.slug}`} className="group block relative overflow-hidden rounded-sm">
+      <Link to={`/project/${project.slug}`} className="group block relative overflow-hidden rounded-sm gradient-border">
         <div className={cn('relative overflow-hidden bg-muted aspect-[3/2]')}>
-          {!isLoaded && <div className="absolute inset-0 bg-muted" />}
-          <motion.img
-            src={project.coverImage}
-            alt={project.title}
-            className={cn('absolute inset-0 w-full h-full object-cover transition-all duration-700', isLoaded ? 'opacity-100' : 'opacity-0', 'group-hover:scale-110')}
-            loading={index < 6 ? 'eager' : 'lazy'}
-            onLoad={() => setIsLoaded(true)}
-          />
+          {(!hasImage || hasError) ? (
+            <div className="absolute inset-0 bg-white flex flex-col items-center justify-center gap-3">
+              <ImageOff className="size-10 text-muted-foreground/40" />
+              <span className="text-sm font-light text-muted-foreground/60">Can't Load Image</span>
+            </div>
+          ) : (
+            <>
+              {!isLoaded && <div className="absolute inset-0 bg-muted" />}
+              <motion.img
+                src={project.coverImage}
+                alt={project.title}
+                className={cn('absolute inset-0 w-full h-full object-cover transition-all duration-700', isLoaded ? 'opacity-100' : 'opacity-0', 'group-hover:scale-110')}
+                loading={index < 6 ? 'eager' : 'lazy'}
+                onLoad={() => setIsLoaded(true)}
+                onError={() => setHasError(true)}
+              />
+            </>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             <div className="absolute bottom-0 left-0 right-0 p-6 space-y-2">
               <h3 className="text-white text-xl md:text-2xl font-light tracking-wide">{project.title}</h3>
