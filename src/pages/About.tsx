@@ -6,6 +6,8 @@ import { Separator } from '@/components/ui/separator';
 import { SEOHead } from '@/components/seo/SEOHead';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { useToast } from '@/hooks/use-toast';
+import { TechStackIcons } from '@/components/portfolio/TechStackIcons';
+import { LanguagesSection } from '@/components/portfolio/LanguagesSection';
 import aboutBg from '@/assets/about-bg.jpg';
 import type { TechCategory } from '@/types';
 
@@ -23,7 +25,7 @@ export default function About() {
   return (
     <>
       <SEOHead title="About" description={`Learn about ${photographerInfo.name} — ${photographerInfo.tagline}`} />
-      
+
       <div className="min-h-screen">
         <section className="py-24 md:py-32 px-6 lg:px-8 border-b border-border">
           <div className="max-w-4xl mx-auto text-center space-y-6">
@@ -39,11 +41,9 @@ export default function About() {
             <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-start">
               <ScrollReveal>
                 <div className="space-y-6">
-                  {/* Full image display with object-contain */}
                   <div className="relative w-full overflow-hidden rounded-sm bg-muted">
                     <img src={aboutBg} alt="Motivational quote" className="w-full h-auto object-contain" />
                   </div>
-                  
                   <div className="flex items-center gap-4">
                     {photographerInfo.socialLinks.linkedin && (
                       <a href={photographerInfo.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 border border-border rounded-sm hover:bg-accent transition-colors" aria-label="LinkedIn">
@@ -81,7 +81,7 @@ export default function About() {
                     </div>
                     <div className="text-sm font-light tracking-wide">
                       <span className="text-muted-foreground">Status: </span>
-                      <span className="text-green-400">{photographerInfo.status}</span>
+                      <span className="text-emerald-400">{photographerInfo.status}</span>
                     </div>
                   </div>
                 </div>
@@ -90,26 +90,18 @@ export default function About() {
           </div>
         </section>
 
-        {/* Tech Stack - Inlined */}
+        {/* Tech Stack with Icons */}
         <section className="py-16 md:py-24 px-6 lg:px-8 border-t border-border">
           <ScrollReveal>
             <div className="max-w-5xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-light tracking-wide text-center mb-12">Technologies</h2>
-              <div className="space-y-8">
-                {techStack.map((category: TechCategory, catIndex: number) => (
-                  <motion.div key={category.name} className="space-y-3" initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }} transition={{ duration: 0.4, delay: catIndex * 0.08 }}>
-                    <h3 className="text-sm font-light tracking-widest uppercase text-muted-foreground">{category.name}</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {category.items.map((item) => (
-                        <span key={item} className="px-4 py-2 text-sm font-light tracking-wide border border-border rounded-sm bg-accent/50 text-foreground hover:bg-accent transition-colors">{item}</span>
-                      ))}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+              <h2 className="text-3xl md:text-4xl font-light tracking-wide text-center mb-12 vibrant-text-gradient">Technologies</h2>
+              <TechStackIcons categories={techStack} />
             </div>
           </ScrollReveal>
         </section>
+
+        {/* Languages Section */}
+        <LanguagesSection />
       </div>
     </>
   );
