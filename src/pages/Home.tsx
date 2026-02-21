@@ -11,9 +11,10 @@ import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { TechStackIcons } from '@/components/portfolio/TechStackIcons';
 import { LanguagesSection } from '@/components/portfolio/LanguagesSection';
+import { CertificatesHighlight } from '@/components/portfolio/CertificatesHighlight';
+import { QuoteSection } from '@/components/portfolio/QuoteSection';
 import type { TechCategory } from '@/types';
 
-// Lazy load the heavy 3D component
 const NeuralBrain = lazy(() =>
   import('@/components/3d/NeuralBrain').then((m) => ({ default: m.NeuralBrain }))
 );
@@ -57,124 +58,79 @@ export default function Home() {
       <SEOHead />
 
       <div className="min-h-screen">
-        {/* ── Hero Section with 3D Neural Brain ── */}
+        {/* ── Hero Section ── */}
         <section className="relative h-screen w-full overflow-hidden bg-background">
-          {/* 3D Brain */}
           <Suspense fallback={null}>
             <NeuralBrain />
           </Suspense>
-
-          {/* Gradient overlay so text is readable */}
           <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/50 to-background pointer-events-none" />
-
           <div className="relative h-full flex flex-col items-center justify-center px-6" style={{ zIndex: 1 }}>
-            <motion.div
-              className="text-center space-y-6 max-w-4xl"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: 'easeOut' }}
-            >
-              <motion.div
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
+            <motion.div className="text-center space-y-6 max-w-4xl" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+              <motion.div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}>
+                <span className="relative flex h-2 w-2"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" /><span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" /></span>
                 <span className="text-sm font-light tracking-wide text-emerald-400">{photographerInfo.status}</span>
               </motion.div>
-
-              <motion.h1
-                className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-wide text-foreground vibrant-text-gradient"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.2 }}
-              >
-                {photographerInfo.name}
-              </motion.h1>
-
-              <motion.p
-                className="text-lg md:text-xl font-light tracking-wide text-muted-foreground"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.4 }}
-              >
-                <TypedHeadline text={photographerInfo.tagline} />
-              </motion.p>
-
-              <motion.p
-                className="text-base md:text-lg font-light leading-relaxed text-muted-foreground/80 max-w-2xl mx-auto"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.6 }}
-              >
-                {photographerInfo.heroIntroduction}
-              </motion.p>
-
-              <motion.div
-                className="flex flex-wrap items-center justify-center gap-3 pt-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.8 }}
-              >
-                <Link
-                  to="/portfolio"
-                  className={cn(heroButtonBase, 'bg-foreground text-background hover:bg-foreground/90 hover:scale-105 hover:shadow-lg vibrant-btn')}
-                >
-                  <Briefcase className="size-4" /> View Projects
-                </Link>
-                <Link
-                  to="/contact"
-                  className={cn(heroButtonBase, 'border border-border text-foreground hover:bg-accent hover:scale-105 vibrant-hover')}
-                >
-                  <Mail className="size-4" /> Contact Me
-                </Link>
-                <a
-                  href="https://github.com/Anshul-777"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(heroButtonBase, 'border border-border text-foreground hover:bg-accent hover:scale-105 vibrant-hover')}
-                >
-                  <Github className="size-4" /> GitHub
-                </a>
-                <button
-                  onClick={handleResumeDownload}
-                  className={cn(heroButtonBase, 'border border-border text-foreground hover:bg-accent hover:scale-105 vibrant-hover')}
-                >
-                  <Download className="size-4" /> Resume
-                </button>
+              <motion.h1 className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-wide text-foreground vibrant-text-gradient" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2 }}>{photographerInfo.name}</motion.h1>
+              <motion.p className="text-lg md:text-xl font-light tracking-wide text-muted-foreground" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.4 }}><TypedHeadline text={photographerInfo.tagline} /></motion.p>
+              <motion.p className="text-base md:text-lg font-light leading-relaxed text-muted-foreground/80 max-w-2xl mx-auto" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.6 }}>{photographerInfo.heroIntroduction}</motion.p>
+              <motion.div className="flex flex-wrap items-center justify-center gap-3 pt-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.8 }}>
+                <Link to="/portfolio" className={cn(heroButtonBase, 'bg-foreground text-background hover:bg-foreground/90 hover:scale-105 hover:shadow-lg vibrant-btn')}><Briefcase className="size-4" /> View Projects</Link>
+                <Link to="/contact" className={cn(heroButtonBase, 'border border-border text-foreground hover:bg-accent hover:scale-105 vibrant-hover')}><Mail className="size-4" /> Contact Me</Link>
+                <a href="https://github.com/Anshul-777" target="_blank" rel="noopener noreferrer" className={cn(heroButtonBase, 'border border-border text-foreground hover:bg-accent hover:scale-105 vibrant-hover')}><Github className="size-4" /> GitHub</a>
+                <button onClick={handleResumeDownload} className={cn(heroButtonBase, 'border border-border text-foreground hover:bg-accent hover:scale-105 vibrant-hover')}><Download className="size-4" /> Resume</button>
               </motion.div>
             </motion.div>
           </div>
         </section>
 
-        {/* ── About Section ── */}
+        {/* ── About ── */}
         <section className="py-24 md:py-32 px-6 lg:px-8 bg-background">
           <div className="max-w-4xl mx-auto text-center space-y-8">
             <ScrollReveal>
               <div className="space-y-6">
                 <h2 className="text-3xl md:text-4xl font-light tracking-wide">About Me</h2>
                 <div className="space-y-4 text-lg font-light leading-relaxed text-muted-foreground text-left">
-                  {photographerInfo.biography.split('\n\n').map((p, i) => (
-                    <p key={i}>{p}</p>
-                  ))}
+                  {photographerInfo.biography.split('\n\n').map((p, i) => (<p key={i}>{p}</p>))}
                 </div>
-                <Link
-                  to="/about"
-                  className="inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors group"
-                >
-                  <span>Learn More</span>
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+                <Link to="/about" className="inline-flex items-center gap-2 text-base font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors group">
+                  <span>Learn More</span><ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </ScrollReveal>
           </div>
         </section>
 
-        {/* ── Tech Stack Section with Icons ── */}
+        {/* ── Featured Projects ── */}
+        <section className="py-24 md:py-32 border-t border-border">
+          <ScrollReveal>
+            <div className="text-center mb-16 space-y-4 px-6">
+              <div className="flex items-center justify-center gap-3">
+                <h2 className="text-4xl md:text-5xl font-light tracking-wide vibrant-text-gradient">Featured Projects</h2>
+                <span className="px-3 py-1 text-sm font-light border border-border rounded-full bg-accent/50">{featuredProjects.length}</span>
+              </div>
+              <p className="text-lg text-muted-foreground font-light tracking-wide">Selected work in ML, Data Science & AI</p>
+            </div>
+          </ScrollReveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 px-6 lg:px-8 max-w-7xl mx-auto">
+            {featuredProjects.map((project, index) => (
+              <ScrollReveal key={project.id} delay={index * 0.1}>
+                <InlinedProjectCard project={project} index={index} />
+              </ScrollReveal>
+            ))}
+          </div>
+          <ScrollReveal delay={0.4}>
+            <div className="flex justify-center mt-16 px-6">
+              <Link to="/portfolio" className="group inline-flex items-center gap-2 text-lg font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors">
+                <span>View All Projects</span><ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </ScrollReveal>
+        </section>
+
+        {/* ── Certificates Highlight ── */}
+        <CertificatesHighlight />
+
+        {/* ── Tech Stack ── */}
         <section className="py-24 md:py-32 border-t border-border px-6 lg:px-8">
           <ScrollReveal>
             <div className="max-w-5xl mx-auto">
@@ -187,43 +143,11 @@ export default function Home() {
           </ScrollReveal>
         </section>
 
-        {/* ── Languages Section ── */}
+        {/* ── Languages (compact) ── */}
         <LanguagesSection />
 
-        {/* ── Featured Projects Section ── */}
-        <section className="py-24 md:py-32 border-t border-border">
-          <ScrollReveal>
-            <div className="text-center mb-16 space-y-4 px-6">
-              <div className="flex items-center justify-center gap-3">
-                <h2 className="text-4xl md:text-5xl font-light tracking-wide vibrant-text-gradient">Featured Projects</h2>
-                <span className="px-3 py-1 text-sm font-light border border-border rounded-full bg-accent/50">
-                  {featuredProjects.length}
-                </span>
-              </div>
-              <p className="text-lg text-muted-foreground font-light tracking-wide">Selected work in ML, Data Science & AI</p>
-            </div>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 px-6 lg:px-8 max-w-7xl mx-auto">
-            {featuredProjects.map((project, index) => (
-              <ScrollReveal key={project.id} delay={index * 0.1}>
-                <InlinedProjectCard project={project} index={index} />
-              </ScrollReveal>
-            ))}
-          </div>
-
-          <ScrollReveal delay={0.4}>
-            <div className="flex justify-center mt-16 px-6">
-              <Link
-                to="/portfolio"
-                className="group inline-flex items-center gap-2 text-lg font-light tracking-wide text-foreground hover:text-muted-foreground transition-colors"
-              >
-                <span>View All Projects</span>
-                <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </ScrollReveal>
-        </section>
+        {/* ── Inspirational Quote ── */}
+        <QuoteSection />
       </div>
     </>
   );
@@ -246,27 +170,14 @@ function InlinedProjectCard({ project, index = 0 }: { project: any; index?: numb
           ) : (
             <>
               {!isLoaded && <div className="absolute inset-0 bg-muted" />}
-              <motion.img
-                src={project.coverImage}
-                alt={project.title}
-                className={cn(
-                  'absolute inset-0 w-full h-full object-cover transition-all duration-700',
-                  isLoaded ? 'opacity-100' : 'opacity-0',
-                  'group-hover:scale-110'
-                )}
-                loading={index < 6 ? 'eager' : 'lazy'}
-                onLoad={() => setIsLoaded(true)}
-                onError={() => setHasError(true)}
-              />
+              <motion.img src={project.coverImage} alt={project.title} className={cn('absolute inset-0 w-full h-full object-cover transition-all duration-700', isLoaded ? 'opacity-100' : 'opacity-0', 'group-hover:scale-110')} loading={index < 6 ? 'eager' : 'lazy'} onLoad={() => setIsLoaded(true)} onError={() => setHasError(true)} />
             </>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
             <div className="absolute bottom-0 left-0 right-0 p-6 space-y-2">
               <h3 className="text-white text-xl md:text-2xl font-light tracking-wide">{project.title}</h3>
               <div className="flex items-center gap-3 text-sm text-white/80 font-light tracking-wide">
-                <span className="capitalize">{project.category}</span>
-                <span>•</span>
-                <span>{project.year}</span>
+                <span className="capitalize">{project.category}</span><span>•</span><span>{project.year}</span>
               </div>
             </div>
           </div>
